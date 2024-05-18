@@ -23,6 +23,20 @@ STATIC_DIR = os.path.join(SLY_APP_DATA_DIR, "static")
 sly.fs.mkdir(STATIC_DIR)
 
 
+class ModalState:
+    """Modal state"""
+
+    UPDATE_DELAY = "modal.state.UpdateDelay"
+    GRID_WIDTH = "modal.state.GridWidth"
+    # GRID_HEIGHT = "modal.state.GridHeight"
+
+    def delay(self):
+        return os.environ.get(self.UPDATE_DELAY, 2)
+
+    def grid_size(self):
+        return os.environ.get(self.GRID_WIDTH, 1)
+
+
 # * To avoid global variables in different modules, it's better to use g.STATE (g.AppState) object
 # * across the app. It can be accessed from any module by importing globals module.
 class State:
@@ -33,6 +47,10 @@ class State:
         self.selected_workspace = sly.env.workspace_id()
         self.selected_project = sly.env.project_id(raise_not_found=False)
         self.selected_dataset = sly.env.dataset_id(raise_not_found=False)
+
+        self.delay = ModalState().delay()
+        self.col_num = ModalState().grid_size()
+        self.displaying_imgs_paths = None
 
         self.continue_working = True
 
