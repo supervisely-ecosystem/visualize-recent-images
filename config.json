@@ -3,7 +3,7 @@
   "version": "2.0.0",
   "name": "Visualize Image Updates",
   "description": "Application that visualizes the most recently updated images",
-  "docker_image": "supervisely/base-py-sdk:6.73.88 !!! CHANGE IMAGE NAME AND VERSION!!!",
+  "docker_image": "supervisely/base-py-sdk:6.73.88",
   "categories": [
     "images",
     "visualization"
