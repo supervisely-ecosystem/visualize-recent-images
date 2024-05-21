@@ -14,8 +14,9 @@ def update_grid():
             g.selected_dataset, sort="updatedAt", sort_order="desc", limit=g.col_num
         )
     else:
+        filters = [{"field": "updatedAt", "operator": "gt", "value": g.last_time}]
         img_infos = []
-        dataset_list = g.api.dataset.get_list(g.selected_project)
+        dataset_list = g.api.dataset.get_list(g.selected_project, filters)
         (
             img_infos.extend(
                 g.api.image.get_list(
