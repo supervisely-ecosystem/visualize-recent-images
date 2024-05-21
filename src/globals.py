@@ -8,14 +8,11 @@ from supervisely.app.widgets import (
 )
 
 if sly.is_development():
-    # * For convinient development, has no effect in the production.
     load_dotenv("local.env")
     load_dotenv(os.path.expanduser("~/supervisely.env"))
 
 api = sly.Api.from_env()
 SLY_APP_DATA_DIR = sly.app.get_data_dir()
-STATIC_DIR = os.path.join(SLY_APP_DATA_DIR, "static")
-sly.fs.mkdir(STATIC_DIR)
 
 
 selected_team = sly.env.team_id()
@@ -25,8 +22,7 @@ project_meta = sly.ProjectMeta.from_json(api.project.get_meta(selected_project))
 selected_dataset = sly.env.dataset_id(raise_not_found=False)
 
 delay = os.environ.get("modal.state.UpdateDelay", 2)
-col_num = os.environ.get("modal.state.GridWidth", 1)
-local_images_paths = []
+col_num = os.environ.get("modal.state.GridWidth", 2)
 
 project_info = api.project.get_info_by_id(selected_project)
 

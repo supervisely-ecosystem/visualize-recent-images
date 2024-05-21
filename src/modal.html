@@ -1,18 +1,18 @@
 <div class="mt10">
   <div>
     <sly-field
-      title="UPDATE DELAY"
-      description="Set the delay between API requests (in seconds)"
+      title="Update Frequency"
+      description="Set the frequency between updates (in seconds)"
     >
-      <el-input-number v-model="state.UpdateDelay" :min="0" :step="100" size="small" placeholder="Enter delay"></el-input-number>
+      <el-input-number v-model="state.UpdateDelay" :min="3" :step="150" size="small" placeholder="Enter delay"></el-input-number>
     </sly-field>
   </div>
   <div>
     <sly-field
-      title="Image Number"
-      description="Set the width of the image grid"
+      title="Image Amount"
+      description="Set the number of images in the image grid"
     >
-      <el-input-number v-model="state.GridWidth" :min="1" :step="1" size="small" placeholder="Enter grid width"></el-input-number>
+      <el-input-number v-model="state.GridWidth" :min="1" :max="5" :step="1" size="small" placeholder="Enter grid width"></el-input-number>
     </sly-field>
   </div>
   <!-- <div>
