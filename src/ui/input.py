@@ -1,4 +1,3 @@
-import os
 import supervisely as sly
 from supervisely.app.widgets import (
     Card,
@@ -6,6 +5,20 @@ from supervisely.app.widgets import (
 )
 
 import src.globals as g
+
+import datetime
+
+
+def get_latest_imgs(imginfos):
+    infos_w_dates = [
+        (image, datetime.fromisoformat(image.updated_at.replace("Z", "+00:00")))
+        for image in imginfos
+    ]
+
+    sorted_infos_with_dates = sorted(infos_w_dates, key=lambda x: x[1], reverse=True)
+    sorted_infos = [image[0] for image in sorted_infos_with_dates]
+
+    return sorted_infos[: g.col_num]
 
 
 def update_grid():
@@ -25,6 +38,8 @@ def update_grid():
             )
             for dataset in dataset_list
         )
+        img_infos = get_latest_imgs(img_infos)
+
     img_ids = [img.id for img in img_infos]
     preview_urls = [
         img.preview_url.replace("http://10.62.10.5:32977/", f"{g.api.server_address}/")
@@ -35,7 +50,6 @@ def update_grid():
     anns = [sly.Annotation.from_json(ann_json.annotation, g.project_meta) for ann_json in ann_jsons]
     if len(anns) == 0:
         anns = [None]
-    # todo: launch from project
     g.grid.clean_up()
     for url, name, ann in zip(preview_urls, image_names, anns):
         g.grid.append(
