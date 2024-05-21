@@ -1,10 +1,12 @@
-<div class="mt10">
+<div>
   <div>
     <sly-field
       title="Update Frequency"
       description="Set the frequency between updates (in seconds)"
     >
-      <el-input-number v-model="state.UpdateDelay" :min="3" :step="150" size="small" placeholder="Enter delay"></el-input-number>
+    <div>
+      <el-input-number v-model="state.UpdateDelay" :min="3" :step="150" size="small"></el-input-number>
+    </div>
     </sly-field>
   </div>
   <div>
@@ -12,15 +14,7 @@
       title="Image Amount"
       description="Set the number of images in the image grid"
     >
-      <el-input-number v-model="state.GridWidth" :min="1" :max="5" :step="1" size="small" placeholder="Enter grid width"></el-input-number>
+    <el-input-number v-model="state.GridWidth" :min="1" :max="5" :step="1" size="small"></el-input-number>
     </sly-field>
   </div>
-  <!-- <div>
-    <sly-field
-      title="Image Grid Height"
-      description="Set the height of the image grid"
-    >
-      <el-input-number v-model="state.GridHeight" :min="1" :step="1" size="small" placeholder="Enter grid height"></el-input-number>
-    </sly-field>
-  </div> -->
 </div>
