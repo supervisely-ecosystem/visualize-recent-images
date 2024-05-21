@@ -13,6 +13,11 @@
   "headless": false,
   "poster": "xxx",
   "entrypoint": "python -m uvicorn src.main:app --host 0.0.0.0 --port 8000",
+  "modal_template": "src/modal.html",
+  "modal_template_state": {
+    "UpdateDelay": 3,
+    "GridWidth": 1
+  },
   "port": 8000,
 	"context_menu": {
 		"target": [
