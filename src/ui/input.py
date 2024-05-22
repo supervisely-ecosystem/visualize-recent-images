@@ -5,15 +5,11 @@ from supervisely.app.widgets import (
 )
 
 import src.globals as g
-
-import datetime
+from datetime import datetime
 
 
 def get_latest_imgs(imginfos):
-    infos_w_dates = [
-        (image, datetime.fromisoformat(image.updated_at.replace("Z", "+00:00")))
-        for image in imginfos
-    ]
+    infos_w_dates = [(image, datetime.fromisoformat(image.updated_at[:-1])) for image in imginfos]
 
     sorted_infos_with_dates = sorted(infos_w_dates, key=lambda x: x[1], reverse=True)
     sorted_infos = [image[0] for image in sorted_infos_with_dates]
@@ -27,23 +23,14 @@ def update_grid():
             g.selected_dataset, sort="updatedAt", sort_order="desc", limit=g.col_num
         )
     else:
-        filters = [
-            {
-                "field": "updatedAt",
-                "operator": ">",
-                "value": g.last_time,
-            }
-        ]
         img_infos = []
-        dataset_list = g.api.dataset.get_list(g.selected_project, filters)
-        (
+        dataset_list = g.api.dataset.get_list(g.selected_project)
+        for dataset in dataset_list:
             img_infos.extend(
                 g.api.image.get_list(
                     dataset_id=dataset.id, sort="updatedAt", sort_order="desc", limit=g.col_num
                 )
             )
-            for dataset in dataset_list
-        )
         img_infos = get_latest_imgs(img_infos)
 
     img_ids = [img.id for img in img_infos]
