@@ -21,8 +21,8 @@ selected_project = sly.env.project_id(raise_not_found=False)
 project_meta = sly.ProjectMeta.from_json(api.project.get_meta(selected_project))
 selected_dataset = sly.env.dataset_id(raise_not_found=False)
 
-delay = os.environ.get("modal.state.UpdateDelay", 2)
-col_num = os.environ.get("modal.state.GridWidth", 2)
+delay = int(os.environ.get("modal.state.UpdateDelay", 2))
+col_num = int(os.environ.get("modal.state.GridWidth", 2))
 
 project_info = api.project.get_info_by_id(selected_project)
 
