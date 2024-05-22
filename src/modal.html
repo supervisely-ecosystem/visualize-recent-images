@@ -5,7 +5,7 @@
       description="Set the frequency between updates (in seconds)"
     >
     <div>
-      <el-input-number v-model="state.UpdateDelay" :min="3" :step="150" size="small"></el-input-number>
+      <el-input-number v-model="state.UpdateDelay" :min="3" :max="150" :step="1" size="small"></el-input-number>
     </div>
     </sly-field>
   </div>
