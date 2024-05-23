@@ -6,6 +6,7 @@ from supervisely.app.widgets import (
 
 import src.globals as g
 from datetime import datetime
+from supervisely._utils import is_production
 
 
 def get_latest_imgs(imginfos):
@@ -34,10 +35,14 @@ def update_grid():
         img_infos = get_latest_imgs(img_infos)
 
     img_ids = [img.id for img in img_infos]
-    preview_urls = [
-        img.preview_url.replace("http://10.62.10.5:32977", g.api.server_address)
-        for img in img_infos
-    ]
+    preview_urls = []
+    for img in img_infos:
+        if is_production() and img.preview_url.startswith("http://10.62.10.5:32977"):
+            preview_urls.append(img.preview_url.replace("http://10.62.10.5:32977/", ""))
+        else:
+            preview_urls.append(
+                img.preview_url.replace("http://10.62.10.5:32977", g.api.server_address)
+            )
     image_names = [img.name for img in img_infos]
     ann_jsons = [g.api.annotation.download(img_id) for img_id in img_ids]
     anns = [sly.Annotation.from_json(ann_json.annotation, g.project_meta) for ann_json in ann_jsons]
