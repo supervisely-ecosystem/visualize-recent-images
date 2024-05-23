@@ -17,8 +17,8 @@ def main():
         project_info = g.api.project.get_info_by_id(g.selected_project)
         g.current_time = project_info.updated_at
         if g.last_time != g.current_time:
-            sly.logger.info("Project Updated")
             input.update_grid()
+            sly.logger.info("Project Updated")
             g.last_time = g.current_time
         time.sleep(g.delay)
 
