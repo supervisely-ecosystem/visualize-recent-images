@@ -18,7 +18,6 @@ SLY_APP_DATA_DIR = sly.app.get_data_dir()
 selected_team = sly.env.team_id()
 selected_workspace = sly.env.workspace_id()
 selected_project = sly.env.project_id(raise_not_found=False)
-project_meta = sly.ProjectMeta.from_json(api.project.get_meta(selected_project))
 selected_dataset = sly.env.dataset_id(raise_not_found=False)
 
 delay = int(os.environ.get("modal.state.UpdateDelay", 2))

@@ -42,7 +42,8 @@ def update_grid():
         )
     image_names = [img.name for img in img_infos]
     ann_jsons = [g.api.annotation.download(img_id) for img_id in img_ids]
-    anns = [sly.Annotation.from_json(ann_json.annotation, g.project_meta) for ann_json in ann_jsons]
+    project_meta = sly.ProjectMeta.from_json(g.api.project.get_meta(g.selected_project))
+    anns = [sly.Annotation.from_json(ann_json.annotation, project_meta) for ann_json in ann_jsons]
     if len(anns) == 0:
         anns = [None]
     g.grid.clean_up()
