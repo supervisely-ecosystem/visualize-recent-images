@@ -37,9 +37,12 @@ def update_grid():
     img_ids = [img.id for img in img_infos]
     preview_urls = []
     for img in img_infos:
-        preview_urls.append(
-            img.preview_url.replace("http://10.62.10.5:32977/", "https://dev.supervisely.com/")
-        )
+        if is_production() and not g.api.server_address.startswith("http://10.62.10.5:32977/"):
+            preview_urls.append(img.path_original)
+        else:
+            preview_urls.append(
+                img.preview_url.replace("http://10.62.10.5:32977/", "https://dev.supervisely.com/")
+            )
     image_names = [img.name for img in img_infos]
     ann_jsons = [g.api.annotation.download(img_id) for img_id in img_ids]
     project_meta = sly.ProjectMeta.from_json(g.api.project.get_meta(g.selected_project))
