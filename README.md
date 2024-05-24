@@ -29,7 +29,6 @@ Section for the app running. Describe how to run the app step by step.
 
 **Step 2:** In the modal window, you can specify the amount of images to be displayed in the application, and the update frequency (in seconds)<br><br>
 
-<!-- use pictures or gifs to make it clear
-<img src="placeholder for screenshot"/><br><br> -->
+<img src="https://github.com/supervisely-ecosystem/visualize-recent-images/assets/115161827/837f17c1-ca80-490d-9000-b4a8dfc265e2"/><br><br>
 
 After finishing using the app, don't forget to stop the app session manually in the App Sessions.
