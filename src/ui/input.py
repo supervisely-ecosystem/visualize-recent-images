@@ -11,11 +11,14 @@ from supervisely._utils import is_production
 
 def get_latest_imgs(imginfos):
     infos_w_dates = [(image, datetime.fromisoformat(image.updated_at[:-1])) for image in imginfos]
+    # Why we're creating tuples here? We can just sort the original list by its updated_at field.
+    # E.g. return sorted(imginfos, key=lambda image: datetime.fromisoformat(image.updated_at[:-1]), reverse=True)[:g.col_num]
+    # Warning, pseudo-code above, but it still may work. 🤷‍♂️
 
-    sorted_infos_with_dates = sorted(infos_w_dates, key=lambda x: x[1], reverse=True)
-    sorted_infos = [image[0] for image in sorted_infos_with_dates]
+    # sorted_infos_with_dates = sorted(infos_w_dates, key=lambda x: x[1], reverse=True)
+    # sorted_infos = [image[0] for image in sorted_infos_with_dates]
 
-    return sorted_infos[: g.col_num]
+    # return sorted_infos[: g.col_num]
 
 
 def update_grid():
@@ -35,32 +38,39 @@ def update_grid():
         img_infos = get_latest_imgs(img_infos)
 
     img_ids = [img.id for img in img_infos]
-    preview_urls = []
-    for img in img_infos:
-        if is_production() and not g.api.server_address.startswith("http://10.62.10.5:32977/"):
-            preview_urls.append(img.path_original)
-        else:
-            preview_urls.append(
-                img.preview_url.replace("http://10.62.10.5:32977/", "https://dev.supervisely.com/")
-            )
-    image_names = [img.name for img in img_infos]
-    ann_jsons = [g.api.annotation.download(img_id) for img_id in img_ids]
+    # preview_urls = [] # We don't need it here.
+    # Remove this section completely. The code should work with image_info.preview_url when the VPN is connected.
+    # If not - investigate the issue with the widget and fix it.
+    # preview_urls = [image_info.preview_url for image_info in image_infos]
+    # for img in img_infos:
+    #     if is_production() and not g.api.server_address.startswith("http://10.62.10.5:32977/"):
+    #         preview_urls.append(img.path_original)
+    #     else:
+    #         preview_urls.append(
+    #             img.preview_url.replace("http://10.62.10.5:32977/", "https://dev.supervisely.com/")
+    #         )
+    # image_names = [img.name for img in img_infos] # We don't need it here too.
+    # ann_jsons = [g.api.annotation.download(img_id) for img_id in img_ids]
+    # This would cause multiple API requests. This can be achieved with g.api.annotation.download_json_batch().
+    # If img_ids are from different datasets, group them by dataset_id. E.g. with defaultdict.
     project_meta = sly.ProjectMeta.from_json(g.api.project.get_meta(g.selected_project))
     anns = [sly.Annotation.from_json(ann_json.annotation, project_meta) for ann_json in ann_jsons]
-    if len(anns) == 0:
+    if len(anns) == 0: # We should check if there are no annotations BEFORE making a call to API for retrieving project meta.
         anns = [None]
     g.grid.clean_up()
     # sly.logger.info("Grid Cleaned")
-    for url, name, ann in zip(preview_urls, image_names, anns):
+    for url, name, ann in zip(preview_urls, image_names, anns): # We don't need to zip these three lists, we can just zip image_infos and anns.
+        # E.g. for image_info, ann in zip(image_infos, anns):
+        # And in this case we won't need lists image_names and preview_urls from before.
         g.grid.append(
-            title=name,
-            image_url=url,
+            title=name, # And there image_info.name
+            image_url=url, # So here we'll add image_info.preview_url
             annotation=ann,
         )
     # sly.logger.info("Grid images added")
 
 
-update_grid()
+# update_grid() Why we're calling it here when it's called from the loop in the main.py?
 card = Card(
     "Recently updated images",
     "The most recently updated images",
