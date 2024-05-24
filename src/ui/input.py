@@ -50,14 +50,14 @@ def update_grid():
     if len(anns) == 0:
         anns = [None]
     g.grid.clean_up()
-    sly.logger.info("Grid Cleaned")
+    # sly.logger.info("Grid Cleaned")
     for url, name, ann in zip(preview_urls, image_names, anns):
         g.grid.append(
             title=name,
             image_url=url,
             annotation=ann,
         )
-    sly.logger.info("Grid images added")
+    # sly.logger.info("Grid images added")
 
 
 update_grid()
