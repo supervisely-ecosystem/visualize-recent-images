@@ -1,4 +1,4 @@
-git+https://github.com/supervisely/supervisely.git@grid-gallery-update-on-append
+supervisely==6.73.91
 
 # code formatter
 black
