@@ -8,14 +8,14 @@
     "images",
     "visualization"
   ],
-  "icon": "",
+  "icon": "https://github.com/supervisely-ecosystem/visualize-recent-images/assets/115161827/0367d5a8-f910-41a3-856c-01cdff50ebe6",
   "icon_cover": true,
   "headless": false,
-  "poster": "",
+  "poster": "https://github.com/supervisely-ecosystem/visualize-recent-images/assets/115161827/4306268d-c99e-4884-b190-8760f4982761",
   "entrypoint": "python -m uvicorn src.main:app --host 0.0.0.0 --port 8000",
   "modal_template": "src/modal.html",
   "modal_template_state": {
-    "UpdateDelay": 3,
+    "UpdateDelay": 5,
     "GridWidth": 1
   },
   "port": 8000,
