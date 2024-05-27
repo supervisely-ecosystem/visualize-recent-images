@@ -11,15 +11,17 @@ import threading
 layout = Container(widgets=[input.card])
 app = sly.Application(layout=layout)
 
+last_time = None
+
 
 def main():
+    global last_time
     while True:
         project_info = g.api.project.get_info_by_id(g.selected_project)
-        g.current_time = project_info.updated_at
-        if g.last_time != g.current_time:
+        if last_time != project_info.updated_at:
+            sly.logger.info("Updating Grid")
             input.update_grid()
-            sly.logger.info("Project Updated")
-            g.last_time = g.current_time
+            last_time = project_info.updated_at
         time.sleep(g.delay)
 
 
