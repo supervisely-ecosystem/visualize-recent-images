@@ -6,7 +6,7 @@ from dotenv import load_dotenv
 
 if sly.is_development():
     load_dotenv("local.env")
-    load_dotenv(os.path.expanduser("~/supervisely_prod.env"))
+    load_dotenv(os.path.expanduser("~/supervisely.env"))
 
 api = sly.Api.from_env()
 SLY_APP_DATA_DIR = sly.app.get_data_dir()

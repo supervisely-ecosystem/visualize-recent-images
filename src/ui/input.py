@@ -76,7 +76,7 @@ def update_grid():
     for info, ann in zip(img_infos, anns):
         grid.append(
             title=info.name,
-            image_url=info.preview_url,
+            image_url=info.path_original,
             annotation=ann,
         )
 
