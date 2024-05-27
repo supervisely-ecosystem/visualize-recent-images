@@ -20,7 +20,7 @@ selected_dataset = sly.env.dataset_id(raise_not_found=False)
 delay = int(os.environ.get("modal.state.UpdateDelay", 2))
 col_num = int(os.environ.get("modal.state.GridWidth", 2))
 
-project_info = api.project.get_info_by_id(selected_project) if selected_project else None
+# project_info = api.project.get_info_by_id(selected_project) if selected_project else None
 
-last_time = project_info.updated_at
-current_time = None
+# last_time = project_info.updated_at
+# current_time = None

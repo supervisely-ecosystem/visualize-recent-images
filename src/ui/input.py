@@ -10,6 +10,8 @@ from datetime import datetime
 from supervisely._utils import is_production
 from supervisely.app.widgets import GridGallery
 
+sly.ImageInfo.preview_url
+
 grid = GridGallery(
     g.col_num,
 )
@@ -40,14 +42,14 @@ def update_grid():
         img_infos = get_latest_imgs(img_infos)
 
     img_ids = [img.id for img in img_infos]
-    preview_urls = []
-    for img in img_infos:
-        if is_production() and not g.api.server_address.startswith("http://10.62.10.5:32977/"):
-            preview_urls.append(img.path_original)
-        else:
-            preview_urls.append(
-                img.preview_url.replace("http://10.62.10.5:32977/", "https://dev.supervisely.com/")
-            )
+    full_storage_urls = [img.preview_url for img in img_infos]
+    # for img in img_infos:
+    #     if is_production() and not g.api.server_address.startswith("http://10.62.10.5:32977/"):
+    #         preview_urls.append(img.path_original)
+    #     else:
+    #         preview_urls.append(
+    #             img.preview_url.replace("http://10.62.10.5:32977/", "https://dev.supervisely.com/")
+    #         )
     img_names = [img.name for img in img_infos]
     ann_jsons = [g.api.annotation.download(img_id) for img_id in img_ids]
 
@@ -57,7 +59,7 @@ def update_grid():
         anns = [None]
 
     grid.clean_up()
-    for url, name, ann in zip(preview_urls, img_names, anns):
+    for url, name, ann in zip(full_storage_urls, img_names, anns):
         grid.append(
             title=name,
             image_url=url,
