@@ -6,21 +6,12 @@ from supervisely.app.widgets import (
 )
 
 import src.globals as g
-from datetime import datetime
 
 from supervisely.app.widgets import GridGallery
 
 grid = GridGallery(
     g.col_num,
 )
-
-
-def get_latest_imgs(imginfos):
-    return sorted(
-        imginfos,
-        key=lambda img_info: datetime.fromisoformat(img_info.updated_at[:-1]),
-        reverse=True,
-    )[: g.col_num]
 
 
 def ann_is_empty(ann_info: sly.api.annotation_api.AnnotationInfo) -> bool:
@@ -32,27 +23,9 @@ def ann_is_empty(ann_info: sly.api.annotation_api.AnnotationInfo) -> bool:
 
 
 @sly.timeit
-def get_image_infos():
-    if g.selected_dataset:
-        img_infos = g.api.image.get_list(
-            g.selected_dataset, sort="updatedAt", sort_order="desc", limit=g.col_num
-        )
-    else:
-        img_infos = []
-        dataset_list = g.api.dataset.get_list(g.selected_project)
-        for dataset in dataset_list:
-            img_infos.extend(
-                g.api.image.get_list(
-                    dataset_id=dataset.id, sort="updatedAt", sort_order="desc", limit=g.col_num
-                )
-            )
-        img_infos = get_latest_imgs(img_infos)
-    return img_infos
-
-
-@sly.timeit
 def update_grid():
-    img_infos = get_image_infos()
+    input_id = g.selected_project if g.selected_dataset is None else g.selected_dataset
+    img_infos = g.api.image.get_list(input_id, sort="updatedAt", sort_order="desc", limit=g.col_num)
 
     ds_imgids_dict = defaultdict(list)
     for img_info in img_infos:
