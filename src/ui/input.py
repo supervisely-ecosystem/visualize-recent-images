@@ -25,7 +25,11 @@ def ann_is_empty(ann_info: sly.api.annotation_api.AnnotationInfo) -> bool:
 @sly.timeit
 def update_grid():
     img_infos = g.api.image.get_list(
-        g.input_id, sort="updatedAt", sort_order="desc", limit=g.col_num
+        dataset_id=g.selected_dataset,
+        project_id=g.selected_project,
+        sort="updatedAt",
+        sort_order="desc",
+        limit=g.col_num,
     )
 
     ds_imgids_dict = defaultdict(list)

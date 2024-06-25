@@ -17,8 +17,5 @@ selected_workspace = sly.env.workspace_id()
 selected_project = sly.env.project_id(raise_not_found=False)
 selected_dataset = sly.env.dataset_id(raise_not_found=False)
 
-input_id = selected_project if selected_dataset is None else selected_dataset
-
-
 delay = int(os.environ.get("modal.state.UpdateDelay", 5))
-col_num = int(os.environ.get("modal.state.GridWidth", 2))
+col_num = int(os.environ.get("modal.state.GridWidth", 1))
