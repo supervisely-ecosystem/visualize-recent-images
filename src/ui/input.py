@@ -24,9 +24,10 @@ def ann_is_empty(ann_info: sly.api.annotation_api.AnnotationInfo) -> bool:
 
 @sly.timeit
 def update_grid():
+    input_project = g.selected_project if g.selected_dataset is not None else None
     img_infos = g.api.image.get_list(
         dataset_id=g.selected_dataset,
-        project_id=g.selected_project,
+        project_id=input_project,
         sort="updatedAt",
         sort_order="desc",
         limit=g.col_num,
