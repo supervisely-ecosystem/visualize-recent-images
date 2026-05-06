@@ -1,9 +1,10 @@
 {
   "type": "app",
+  "instance_version": "6.15.60",
   "version": "2.0.0",
   "name": "Visualize Image Updates",
   "description": "Application that visualizes the most recently updated images",
-  "docker_image": "supervisely/base-py-sdk:6.73.116",
+  "docker_image": "supervisely/base-py-sdk:6.73.564",
   "categories": [
     "images",
     "visualization"
